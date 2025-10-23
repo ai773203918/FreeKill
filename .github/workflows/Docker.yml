@@ -54,15 +54,13 @@ jobs:  # 工作流作业
           username: ${{ secrets.DOCKERHUB_USERNAME }}  # Docker Hub 用户名(需在secrets中配置)
           password: ${{ secrets.DOCKERHUB_PASSWORD }}  # Docker Hub Token(需在secrets中配置)
 
-      # # 准备镜像标签(不需要,构建镜像时会定义标签)
-      # - name: 设置 Image Tags  # 步骤名称
-      #   # 注意 | 后注释会有问题故放在这
-      #   # 设置引用的Dockerfile路径
-      #   # 设置构建的镜像标签:版本号+latest(注意tag全小写)
-      #   run: |
-      #     echo "DOCKERFILE_PATH=Dockerfile" >> $GITHUB_ENV
-      #     echo "TAG=918178/freekill:${{ env.TAG_NAME }}" >> $GITHUB_ENV
-      #     echo "TAG_LATEST=918178/freekill:latest" >> $GITHUB_ENV
+      # 准备镜像标签
+      - name: 设置 Image Tags  # 步骤名称
+        # 注意 | 后注释会有问题故放在这
+        # 设置构建的镜像标签:版本号+latest(注意tag全小写)
+        run: |
+          echo "TAG=${{ secrets.DOCKERHUB_USERNAME }}/freekill:${{ env.TAG_NAME }}" >> $GITHUB_ENV
+          echo "TAG_LATEST=${{ secrets.DOCKERHUB_USERNAME }}/freekill:latest" >> $GITHUB_ENV
 
       # 构建并推送镜像
       - name: 编译并推送 freekill镜像  # 步骤名称
@@ -89,7 +87,7 @@ jobs:  # 工作流作业
       #   # 注意 | 后注释会有问题故放在这
       #   # 运行的具体指令,每行指令依次运行
       #   run: |
-      #     docker save -o freekill.tar 918178/freekill:latest
+      #     docker save -o freekill.tar ${{ secrets.DOCKERHUB_USERNAME }}/freekill:latest
 
       # # 将构建好的镜像导出为tar包
       # - name: Archive 导出内部文件  # 步骤名称
