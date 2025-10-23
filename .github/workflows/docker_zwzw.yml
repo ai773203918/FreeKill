@@ -31,7 +31,7 @@ jobs:  # 工作流作业
       # 获取当前日期（格式：年月日,如 20251009）
       - name: 获取当前日期
         id: get-date
-        run: echo "::set-output name=date::$(date +%Y%m%d)"
+        run: echo "date=$(date +%Y%m%d)" >> $GITHUB_OUTPUT
         shell: bash
 
       # 获取镜像标签名称
